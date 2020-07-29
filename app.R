@@ -4,9 +4,10 @@ library(shinyWidgets)
 library(rdrop2)
 library(stringr)
 library(DT)
-token <- readRDS(file = "token.rds")
+
+drop_auth(rdstoken = "token.rds")
+
 entries <- drop_dir(path = "/fotoherbarium")[,'name']
-class(entries)
 entries <- data.frame(entries)
 names <- as.character(NA)
 
@@ -19,32 +20,81 @@ ui <- dashboardPage(title = "digiHerb",
                     
                     dashboardHeader(title = "digiHerb",
                                     titleWidth = 400),
-                    dashboardSidebar(),
+                    
+                    dashboardSidebar(disable = T),
+                    
                     dashboardBody(
-                      column(width=8,
-                      DTOutput('filtered')),
-                      column(width=4,
-                      textOutput('out'))
-                      )
-                    )
+                      column(width=12,
+                             
+                      DTOutput('filtered'),
+                      
+                      box(width = NULL,
+                          textOutput('path')),
+                      box(width = NULL,
+                        htmlOutput("picture"))
+                      
+                      #alternative method
+                      ,
+                      box(width = NULL,
+                        uiOutput("img"))
+                      
+                      #alternative method 2
+                      ,
+                      box(width = NULL,
+                          htmlOutput("includeHTML"))
+                      ))
+ 
+)
                     
 
 server <- function(input, output, session) {
  output$filtered <- renderDT(
-   names
+   names, selection = 'single'
  )
  
- output$out <- renderText({
-   s <- input$filtered_rows_selected
+myPath <- paste0("/fotoherbarium/", 
+                  entries[2,1])
+
+# Use an ifelse to find shared pictured using drop_list_shared_links(), or else make a shared link using drop_share
+
+shared <- drop_list_shared_links(verbose = F)
+l <- length(shared$links)
+sharedBefore <- data.frame()
+for(i in 1:l){
+  sharedBefore[i,1] <- shared$links[[i]]$name
+  sharedBefore[i,2] <- shared$links[[i]]$url
+}
+colnames(sharedBefore) <- c("names", "url")
+
+
+#preview <- drop_share(myPath) 
+#preview2 <- drop_media(myPath)
+#preview2$link
+
+preview <- sharedBefore[1,"url"]
+
+output$path <- renderText(print(preview))
+
+ output$picture<-renderText({
+   c('<img src="',
+     preview,
+     '">')
+ })
+ 
+# Alternative method:
+output$img <- renderUI({
+   tags$img(src =  preview, width="100%")
+ })
    
-   if (length(s)) {
-     print(paste('These rows were selected:', s, sep=" "))
-     
-   }
- }
- )
+# Alternative method 2:
+request <- GET(url=preview)
+dropB <- content(request, as="text")
+output$includeHTML <- renderText({
+  dropB
+})
+
  
-  }
+ }
 
 shinyApp(ui = ui, server = server)
 
