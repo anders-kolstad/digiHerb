@@ -1,98 +1,109 @@
 library(shiny)
-library(shinydashboard)
+#library(shinydashboard)
 library(shinyWidgets)
-library(rdrop2)
 library(stringr)
 library(DT)
+library(shinythemes)
 
-drop_auth(rdstoken = "token.rds")
+#setwd("/home/anders/Pictures/Anders digitale herbarium/Karplanter")
+paths <-list.files(recursive = T, full.names = F)
+lib <- as.data.frame(paths)
+lib$temp <-  substr(paths, 5, nchar(paths))
 
-entries <- drop_dir(path = "/fotoherbarium")[,'name']
-entries <- data.frame(entries)
-names <- as.character(NA)
+lib <- tidyr::separate(data=lib,
+                        col = temp,
+                        into = c("Vitenskapelig navn", 
+                                 "Norsk navn",
+                                 "Funnsted",
+                                 "dato"),
+                        extra = "drop",
+                        sep = "-")
+lib <- tidyr::separate(data=lib,
+                       col = "Vitenskapelig navn",
+                       into = c("Slekt", 
+                                "epitet"),
+                       extra = "drop",
+                       sep = " ",
+                       remove=F)
 
-for(i in 1:nrow(entries)){
-  names[i] <- stringr::str_split(entries[i,'name'], pattern = "-")[[1]][1]  
-}
-names <- as.data.frame(names)
+slekterDT <- aggregate(data = lib, paths~Slekt, FUN=length)
+slekterDTx <- aggregate(data = lib, epitet~Slekt, FUN=function(x) length(unique(x)))
+colnames(slekterDT) <- c("Slekt", "bilder")
+slekterDT$arter <- slekterDTx$epitet[match(slekterDT$Slekt, slekterDTx$Slekt)]
 
-ui <- dashboardPage(title = "digiHerb",
+# UI ----------------------------------------------------------------------
+
+
+ui <- navbarPage(theme = shinytheme("spacelab"),
+                 title = "digiHerb",
+                tabPanel("Søk etter bilde",    
+                  
+  fluidRow(
+column(width=3,
+    h3("Velg slekt(er)"),
+    DTOutput('slektstabell')),
+
+
+column(width = 5, offset = 1,
+    h3("Velg bilde"),
+    DTOutput('funntabell'))),
+
+fluidRow(
+  column(width=10, offset = 1,
+  imageOutput('picture')))
+
+))
                     
-                    dashboardHeader(title = "digiHerb",
-                                    titleWidth = 400),
-                    
-                    dashboardSidebar(disable = T),
-                    
-                    dashboardBody(
-                      column(width=12,
-                             
-                      DTOutput('filtered'),
-                      
-                      box(width = NULL,
-                          textOutput('path')),
-                      box(width = NULL,
-                        htmlOutput("picture"))
-                      
-                      #alternative method
-                      ,
-                      box(width = NULL,
-                        uiOutput("img"))
-                      
-                      #alternative method 2
-                      ,
-                      box(width = NULL,
-                          htmlOutput("includeHTML"))
-                      ))
- 
-)
-                    
+
+
+
+
+# Server ------------------------------------------------------------------
+
 
 server <- function(input, output, session) {
- output$filtered <- renderDT(
-   names, selection = 'single'
+ 
+  
+  #output$art <- renderUI({
+  #  selectizeInput('name', 
+  #                 label="Art", 
+  #                 choices =  unique(filteredLib2()$`Vitenskapelig navn`), 
+  #                 multiple = F, 
+  #                 selected = unique(filteredLib2()$`Vitenskapelig navn`)[1])  })
+  
+  valgteSlekter <- reactive({
+    slekterDT$Slekt[input$slektstabell_rows_selected]
+    })
+  
+  funnAvValgtArt <- reactive({
+    lib[lib$Slekt %in% valgteSlekter(),]
+  })
+  
+  
+  output$funntabell <- renderDT(
+   dplyr::select(funnAvValgtArt(),"Vitenskapelig navn", "Norsk navn", Funnsted, dato),
+   selection = 'single'
  )
  
-myPath <- paste0("/fotoherbarium/", 
-                  entries[2,1])
-
-# Use an ifelse to find shared pictured using drop_list_shared_links(), or else make a shared link using drop_share
-
-shared <- drop_list_shared_links(verbose = F)
-l <- length(shared$links)
-sharedBefore <- data.frame()
-for(i in 1:l){
-  sharedBefore[i,1] <- shared$links[[i]]$name
-  sharedBefore[i,2] <- shared$links[[i]]$url
-}
-colnames(sharedBefore) <- c("names", "url")
+  
+  
+  output$slektstabell <- renderDT(
+    slekterDT,
+   selection = 'multiple',
+   options = list(pageLength = 5)
+  )
 
 
-#preview <- drop_share(myPath) 
-#preview2 <- drop_media(myPath)
-#preview2$link
 
-preview <- sharedBefore[1,"url"]
-
-output$path <- renderText(print(preview))
-
- output$picture<-renderText({
-   c('<img src="',
-     preview,
-     '">')
- })
- 
-# Alternative method:
-output$img <- renderUI({
-   tags$img(src =  preview, width="100%")
- })
-   
-# Alternative method 2:
-request <- GET(url=preview)
-dropB <- content(request, as="text")
-output$includeHTML <- renderText({
-  dropB
-})
-
+output$picture<-renderImage({
+  index <- input$funntabell_rows_selected
+  outfile <- funnAvValgtArt()$paths[index]
+  list(src = paste(outfile),
+       contentType = 'image/jpeg',
+       width = 800,
+       height = 'auto',
+       alt = "This is alternate text")
+ }, deleteFile = F)
  
  }
 

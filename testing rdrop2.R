@@ -2,7 +2,7 @@
 
 library(rdrop2)
 
-# token <- drop_auth()
+#token <- drop_auth()
 # saveRDS(token, file = "token.rds")
 
 #library(dplyr)
@@ -18,10 +18,21 @@ drop_dir() %>%
   select(name)
 
 # test download of an image
-testImg <- drop_download(paste0("/fotoherbarium/", entries[1,1]))
+testImg <- drop_download(paste0("/fotoherbarium/", 
+                         entries[1,1]), 
+                         overwrite = T, 
+                         local_path = 'temp.JPG')
+library(jpeg)
+img <- readJPEG("temp")
+imager::print(img)
+plot(img)
+
+plot(1:2, type='n')
+rasterImage(img, 1, 1.25, 1.1, 1)
 #2-5 sec
 
 library(imager)
 imager::plot(testImg)
 parrots <- load.example("parrots")
 plot(parrots)
+print(parrots)
