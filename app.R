@@ -8,7 +8,7 @@ library(ggplot2)
 library(magick)
 
 #setwd("/home/anders/Pictures/Anders digitale herbarium/Karplanter")
-paths <-list.files(path = "./bilder/",recursive = T, full.names = F)
+paths <-list.files(path = "../bilder/",recursive = T, full.names = F)
 lib <- as.data.frame(paths)
 lib$temp <-  substr(paths, 5, nchar(paths))
 
@@ -161,7 +161,7 @@ observeEvent(input$nyttBilde, {
 })
 
 output$quizbilde<-renderImage({
-  image <- image_read(paste0("bilder/", lib$paths[v$index]))
+  image <- image_read(paste0("../bilder/", lib$paths[v$index]))
   tmp <- image %>%
     image_rotate(as.numeric(input$rotation2)) %>%
     image_border("grey", "20x10") %>%
@@ -276,7 +276,7 @@ observeEvent(input$nyttBilde, {
 # evt som bildegalleri - se slickR
 output$picture<-renderImage({
   index <- input$funntabell_rows_selected
-  image <- image_read(paste0("/bilder/", funnAvValgtArt()$paths[index]))
+  image <- image_read(paste0("../bilder/", funnAvValgtArt()$paths[index]))
   tmp <- image %>%
     image_rotate(as.numeric(input$rotation)) %>%
     image_border("grey", "20x10") %>%
