@@ -276,7 +276,7 @@ observeEvent(input$nyttBilde, {
 # evt som bildegalleri - se slickR
 output$picture<-renderImage({
   index <- input$funntabell_rows_selected
-  image <- image_read(paste0("/home/anders/Pictures/Anders digitale herbarium/Karplanter/bilder/", funnAvValgtArt()$paths[index]))
+  image <- image_read(paste0("/bilder/", funnAvValgtArt()$paths[index]))
   tmp <- image %>%
     image_rotate(as.numeric(input$rotation)) %>%
     image_border("grey", "20x10") %>%
