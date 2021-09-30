@@ -31,7 +31,7 @@ lib <- tidyr::separate(data=lib,
 # get year (last four characters)
 lib$dato <- substr(lib$dato, 1, nchar(lib$dato)-4)
 lib$år <-  substr(lib$dato, nchar(lib$dato)-4, nchar(lib$dato))
-
+ 
 # Hent familienavn
 fam <- readRDS('slektOGfam.RData')
 lib$Familie <- fam$familie[match(lib$Slekt, fam$slekt)]
