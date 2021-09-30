@@ -2,13 +2,14 @@
 # Get family name
 library(rgbif)
 library(dplyr)
-setwd("/home/anders/Pictures/Anders digitale herbarium/Karplanter")
+
 
 # Finn slektsnavn
 
 # To do. Søk blant unique(slekt)
 
-paths <-list.files(recursive = T, full.names = F)
+paths <-list.files(path = "../bilder/",
+                     recursive = T, full.names = F)
 lib <- as.data.frame(paths)
 lib$temp <-  substr(paths, 5, nchar(paths))
 
@@ -38,5 +39,5 @@ slekt2$familie <- apply(slekt2, MARGIN = 1,
 
 slekt2$familie <- as.character(slekt2$familie)
 
-saveRDS(slekt2, 'slektOGfam.RData')
+saveRDS(slekt2, 'slektOGfam.RData', ascii = T)
 #getwd()
