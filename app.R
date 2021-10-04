@@ -232,7 +232,7 @@ observeEvent(input$nyttBilde, {
      scrollX = TRUE)) %>% 
       formatStyle(c(1:ncol(slekterDT)), 
                   color = 'black',
-                  backgroundColor = 'lightgreen') 
+                  backgroundColor = 'grey') 
   })
 
 
@@ -244,7 +244,7 @@ observeEvent(input$nyttBilde, {
                              scrollX = TRUE)) %>% 
       formatStyle(c(1:ncol(slekterDT)), 
                   color = 'black',
-                  backgroundColor = 'lightgreen') 
+                  backgroundColor = 'grey') 
   })
   
   output$funntabell <- renderDT({
@@ -255,7 +255,7 @@ observeEvent(input$nyttBilde, {
                    scrollX = TRUE)) %>% 
     formatStyle(c(1:ncol(slekterDT)), 
                 color = 'black',
-                background = 'lightgreen') 
+                background = 'grey') 
   })
 
   output$alleRader <- renderDT({
