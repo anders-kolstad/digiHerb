@@ -6,9 +6,20 @@ library(shinythemes)
 #library(slickR)
 library(ggplot2)
 library(magick)
+library(stringi)
 
 #setwd("/home/anders/Pictures/Anders digitale herbarium/Karplanter")
-paths <-list.files(path = "../bilder/",recursive = T, full.names = F)
+paths <- list.files(path = "../bilder/",recursive = T, full.names = F)
+
+# stri_enc_mark(paths)
+ # mixed encoding. 
+
+# Sys.getlocale() 
+ # Local is CP-1252
+
+paths <- stri_encode(paths, "", "UTF-8")
+
+
 lib <- as.data.frame(paths)
 lib$temp <-  substr(paths, 5, nchar(paths))
 
@@ -77,7 +88,7 @@ colnames(antTaxa) <- c("År", "Antall_arter", "Antall_nye_arter")
 # UI ----------------------------------------------------------------------
 
 
-ui <- navbarPage(theme = shinytheme("slate"),
+ui <- navbarPage(theme = shinytheme("simplex"),
                  title = "digiHerb",
                 tabPanel("Søk etter bilde",    
    
@@ -232,7 +243,7 @@ observeEvent(input$nyttBilde, {
      scrollX = TRUE)) %>% 
       formatStyle(c(1:ncol(slekterDT)), 
                   color = 'black',
-                  backgroundColor = 'grey') 
+                  backgroundColor = 'cornsilk') 
   })
 
 
@@ -244,7 +255,7 @@ observeEvent(input$nyttBilde, {
                              scrollX = TRUE)) %>% 
       formatStyle(c(1:ncol(slekterDT)), 
                   color = 'black',
-                  backgroundColor = 'grey') 
+                  backgroundColor = 'cornsilk') 
   })
   
   output$funntabell <- renderDT({
@@ -255,7 +266,7 @@ observeEvent(input$nyttBilde, {
                    scrollX = TRUE)) %>% 
     formatStyle(c(1:ncol(slekterDT)), 
                 color = 'black',
-                background = 'grey') 
+                background = 'cornsilk') 
   })
 
   output$alleRader <- renderDT({
@@ -263,7 +274,7 @@ observeEvent(input$nyttBilde, {
   options = list(pageLength = 2000, scrollY = "300px")) %>%
       formatStyle(c(1:ncol(lib[,-1])), 
                   color = 'black',
-                  backgroundColor = 'lightgreen') 
+                  backgroundColor = 'cornsilk') 
     })
 # Bilder ------------------------------------------------------------------
 
