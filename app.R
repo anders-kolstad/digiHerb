@@ -1,5 +1,6 @@
 library(shiny)
 library(shinyWidgets)
+library(tidyverse)
 library(stringr)
 library(DT)
 library(shinythemes)
@@ -8,72 +9,83 @@ library(ggplot2)
 library(magick)
 library(stringi)
 
-# setwd("/home/anders/Pictures/Anders digitale herbarium/Karplanter")
+
 # Sys.setlocale("LC_ALL","no_NO.UTF-8")
-paths <- list.files(path = "../bilder/",recursive = T, full.names = F)
 
-# stri_enc_mark(paths)
- # mixed encoding. 
-
-paths <- stri_encode(paths, "", "UTF-8")
-
-
-lib <- as.data.frame(paths)
-lib$temp <-  substr(paths, 5, nchar(paths))
-
-lib <- tidyr::separate(data=lib,
-                        col = temp,
-                        into = c("Vitenskapelig navn", 
-                                 "Norsk navn",
-                                 "Funnsted",
-                                 "dato"),
-                        extra = "drop",
-                        sep = " - ")
-lib <- tidyr::separate(data=lib,
-                       col = "Vitenskapelig navn",
-                       into = c("Slekt", 
-                                "epitet"),
-                       extra = "merge",
-                       sep = " ",
-                       remove=F)
-
-# get year (last four characters)
-lib$dato <- substr(lib$dato, 1, nchar(lib$dato)-4)
-lib$år <-  substr(lib$dato, nchar(lib$dato)-4, nchar(lib$dato))
- 
 # Hent familienavn
 fam <- readRDS('slektOGfam.RData')
-lib$Familie <- fam$familie[match(lib$Slekt, fam$slekt)]
-lib <- cbind(
-  lib[,1:2],
-  lib[,"Familie"],
-  lib[,4:ncol(lib)-1]
-)
-colnames(lib)[3] <- "Familie"
+
+
+lib <- tibble(
+  paths = list.files(path = "../bilder/", recursive = T, full.names = F)
+) |>
+  # remove first five characters of the path
+  mutate(temp = substr(paths, 5, nchar(paths))) |>
+  separate(temp,
+    into = c(
+      "Vitenskapelig navn",
+      "Norsk navn",
+      "Funnsted",
+      "dato"
+    ),
+    extra = "drop",
+    sep = " - ",
+    remove = F
+  ) |>
+  separate(
+    col = "Vitenskapelig navn",
+    into = c("Slekt", 
+             "epitet"),
+    extra = "merge",
+    sep = " ",
+    remove=F
+  ) |>
+  mutate(
+    # remove file extension
+    dato = substr(dato, 1, nchar(dato)-4),
+    # extract year
+    "år" =  as.numeric(substr(dato, nchar(dato)-4, nchar(dato)))
+  ) |>
+  left_join(
+    fam, by = join_by(Slekt == slekt)
+  ) |>
+  rename(
+    Familie = familie
+  ) |>
+  select(
+    -temp
+  )
+
+
+# mixed encoding.:
+#stri_enc_mark(lib$paths)
+#paths <- stri_encode(paths, "", "UTF-8")
+
+
+# rearragre
+#lib <- cbind(
+#  lib[,1:2],
+#  lib[,"Familie"],
+#  lib[,4:ncol(lib)-1]
+#)
 
 # antall arter per slekt
-slekterDT <- aggregate(data = lib, epitet~Slekt+Familie, 
-                       FUN=function(x) length(unique(x)))
-colnames(slekterDT) <- c("Slekt", "Familie", "arter")
+slekterDT <- lib |>
+  group_by(Slekt, Familie, epitet) |>
+  summarise(arter = n())
 
 # antall slekter og arter per familie
-famDT <- stats::aggregate(data = lib, Slekt~Familie, 
-                   FUN=function(x) length(unique(x)),
-                   drop=F)
-famDT2 <- stats::aggregate(data = lib, epitet~Familie, 
-                    FUN=function(x) length(unique(x)),
-                    drop=F)
+famDT <- lib |>
+  group_by(Familie) |>
+  summarise(slekter = n_distinct(Slekt),
+            arter = n_distinct(epitet))
 
-
-famDT$arter <- famDT2$epitet
-colnames(famDT) <- c("Familie", "slekter", "arter")
-lib$år <- as.numeric(lib$år)
 
 rekke <- seq(min(lib$år, na.rm = T), 
              max(lib$år, na.rm = T),1)
 antTaxa <- data.frame("År"= rekke,
-            "Unike_taxa" <- as.numeric(rep(NA, length(rekke))),
-            "Nye_taxa" <- as.numeric(rep(NA, length(rekke))))
+            "Unike_taxa" <- NA,
+            "Nye_taxa" <- NA)
 
 for(i in 1:length(rekke)){
   antTaxa[i,2] <- length(unique(lib$`Vitenskapelig navn`[lib$år<=rekke[i]]))
@@ -166,7 +178,7 @@ server <- function(input, output, session) {
   v <- reactiveValues(data = NULL)
   
 observeEvent(input$nyttBilde, {
-  v$index <- runif(1,1,nrow(lib))
+  v$index <- round(runif(1,1,nrow(lib)))
 })
 
 output$quizbilde<-renderImage({
@@ -200,7 +212,7 @@ output$quizbilde<-renderImage({
 #})
 
 observeEvent(input$svaret, {
-  output$svaret <- renderTable(t(lib[v$index,c(2,3,6,7,8)]), colnames=F)
+  output$svaret <- renderTable(t(lib[v$index,c(2,5,6,7,8,9)]), colnames=F)
 })
 
 observeEvent(input$nyttBilde, {
