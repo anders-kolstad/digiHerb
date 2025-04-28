@@ -8,14 +8,12 @@ library(ggplot2)
 library(magick)
 library(stringi)
 
-#setwd("/home/anders/Pictures/Anders digitale herbarium/Karplanter")
+# setwd("/home/anders/Pictures/Anders digitale herbarium/Karplanter")
+# Sys.setlocale("LC_ALL","no_NO.UTF-8")
 paths <- list.files(path = "../bilder/",recursive = T, full.names = F)
 
 # stri_enc_mark(paths)
  # mixed encoding. 
-
-# Sys.getlocale() 
- # Local is CP-1252
 
 paths <- stri_encode(paths, "", "UTF-8")
 
