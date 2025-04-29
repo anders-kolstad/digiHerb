@@ -16,7 +16,7 @@ library(stringi)
 fam <- readRDS('slektOGfam.RData')
 
 node <- osf_retrieve_node("bm2ek")
-files <- osf_ls_files(node |> filter(name == "images")) |>
+lib <- osf_ls_files(node |> filter(name == "images")) |>
   separate(name,
     into = c(
       "Vitenskapelig navn",
@@ -116,16 +116,16 @@ column(width = 4, offset=0,
 fluidRow(
   column(width=10, offset = 1,
          br(),
-         sliderInput('width', label = "Bildebredde", min=200, max=4000, step=100,
-                     value = 800),
-         radioGroupButtons(
-           inputId = "rotation",
-           label = "Rotasjon",
-           choiceNames = c("<-","0","->"), 
-           choiceValues = c("270", "0", "90"),
-           selected = "0"
-         ),
-  imageOutput('picture')
+         #sliderInput('width', label = "Bildebredde", min=200, max=4000, step=100,
+         #            value = 800),
+         #radioGroupButtons(
+         #  inputId = "rotation",
+         #  label = "Rotasjon",
+         #  choiceNames = c("<-","0","->"), 
+         #  choiceValues = c("270", "0", "90"),
+         #  selected = "0"
+         #),
+  htmlOutput('osf_embed_frame')
   #slickROutput('slick', width = 500)
   ))
 
@@ -305,6 +305,16 @@ output$picture<-renderImage({
        alt = "This is alternate text")
  }, deleteFile = F)
   
+output$osf_embed_frame <- renderUI({
+  req(input(funntabell_rows_selected)) # maybe dont need?
+  index <- input$funntabell_rows_selected
+  tags$div(
+    style = "width: 100%; height: 80vh;",
+    HTML(paste0(
+      '<iframe src="', lib$URL[index], 
+      '" width="100%" height="100%" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>'
+    )))
+})
   
 #output$slick <- renderSlickR({
 #  index <- input$funntabell_rows_selected
