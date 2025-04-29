@@ -15,13 +15,9 @@ library(stringi)
 # Hent familienavn
 fam <- readRDS('slektOGfam.RData')
 
-
-lib <- tibble(
-  paths = list.files(path = "../bilder/", recursive = T, full.names = F)
-) |>
-  # remove first five characters of the path
-  mutate(temp = substr(paths, 5, nchar(paths))) |>
-  separate(temp,
+node <- osf_retrieve_node("bm2ek")
+files <- osf_ls_files(node |> filter(name == "images")) |>
+  separate(name,
     into = c(
       "Vitenskapelig navn",
       "Norsk navn",
@@ -41,19 +37,18 @@ lib <- tibble(
     remove=F
   ) |>
   mutate(
-    # remove file extension
-    dato = substr(dato, 1, nchar(dato)-4),
+    # remove file extension from date
+    dato = tools::file_path_sans_ext(dato),
     # extract year
-    "år" =  as.numeric(substr(dato, nchar(dato)-4, nchar(dato)))
-  ) |>
+    "år" =  as.numeric(substr(dato, nchar(dato)-4, nchar(dato))),
+    URL = paste0("https://mfr.de-1.osf.io/render?url=https%3A%2F%2Fosf.io%2Fdownload%2F", 
+                  id, 
+                  "%2F%3Fdirect%26mode%3Drender")) |>
   left_join(
     fam, by = join_by(Slekt == slekt)
   ) |>
   rename(
     Familie = familie
-  ) |>
-  select(
-    -temp
   )
 
 
