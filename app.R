@@ -219,7 +219,7 @@ observeEvent(input$nyttBilde, {
   valgteSlekter <- reactive({
     slekterDT$Slekt[input$slektstabell_rows_selected]
   })
-
+# burde hete valgtArt
   valgteArter2 <- reactive({
     valgteArter()$`Vitenskapelig navn`[input$artstabell_rows_selected]
   })
@@ -227,8 +227,9 @@ observeEvent(input$nyttBilde, {
 
   
   valgteArter <- reactive({
-    dat <- lib[lib$Slekt %in% valgteSlekter(),]
-    aggregate(data = dat, paths~`Vitenskapelig navn`, FUN=length)
+    dat <- lib[lib$Slekt %in% valgteSlekter(),] |>
+      group_by(`Vitenskapelig navn`) |>
+      summarise(name = n())
   })
   
   funnAvValgtArt <- reactive({
@@ -306,14 +307,16 @@ output$picture<-renderImage({
  }, deleteFile = F)
   
 output$osf_embed_frame <- renderUI({
-  req(input(funntabell_rows_selected)) # maybe dont need?
   index <- input$funntabell_rows_selected
-  tags$div(
-    style = "width: 100%; height: 80vh;",
-    HTML(paste0(
-      '<iframe src="', lib$URL[index], 
-      '" width="100%" height="100%" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>'
-    )))
+  url <- funnAvValgtArt()$URL[index]
+  if (length(index) == 0) {
+    return(NULL)
+  }
+  
+      div(
+      tags$iframe(src= url, style='width:50vw;height:50vh;')
+    )
+  
 })
   
 #output$slick <- renderSlickR({
