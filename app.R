@@ -8,7 +8,7 @@ library(shinythemes)
 library(ggplot2)
 library(magick)
 library(stringi)
-
+library(osfr)
 
 # Sys.setlocale("LC_ALL","no_NO.UTF-8")
 
@@ -118,13 +118,13 @@ fluidRow(
          br(),
          #sliderInput('width', label = "Bildebredde", min=200, max=4000, step=100,
          #            value = 800),
-         #radioGroupButtons(
-         #  inputId = "rotation",
-         #  label = "Rotasjon",
-         #  choiceNames = c("<-","0","->"), 
-         #  choiceValues = c("270", "0", "90"),
-         #  selected = "0"
-         #),
+         radioGroupButtons(
+           inputId = "rotation",
+           label = "Rotasjon",
+           choiceNames = c("<-","0","->"), 
+           choiceValues = c("270", "0", "90"),
+           selected = "0"
+         ),
   htmlOutput('osf_embed_frame')
   #slickROutput('slick', width = 500)
   ))
@@ -305,15 +305,18 @@ output$picture<-renderImage({
        height = 'auto',
        alt = "This is alternate text")
  }, deleteFile = F)
-  
+
+    
 output$osf_embed_frame <- renderUI({
   index <- input$funntabell_rows_selected
   url <- funnAvValgtArt()$URL[index]
   if (length(index) == 0) {
     return(NULL)
   }
-  
+  # https://forum.posit.co/t/rotating-embedded-images-in-r-markdown/187670
       div(
+      #tags$iframe(src= url, style=cat(paste0("'transform:rotate(", input$rotation, "deg);width:50vw;height:50vh;'")))
+        # the transform:rotate part work, but not with conditional input
       tags$iframe(src= url, style='width:50vw;height:50vh;')
     )
   
