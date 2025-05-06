@@ -8,17 +8,7 @@ website:
   site-url: https://anders-kolstad.github.io/digiHerb
   repo-url: https://github.com/anders-kolstad/digiHerb
   repo-actions: [edit, source, issue]
-  sidebar:
-    title: "Sidebar Title"
-    style: "docked"
-    search: true
-    collapse-level: 1
-    #logo: images/logo.png
-    contents: 
-      - href: index.qmd
-        text: Søk etter bilde
-      - href: quiz.qmd
-        text: Plante quiz
+
       
 format:
   html:

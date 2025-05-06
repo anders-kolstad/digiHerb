@@ -1,10 +1,14 @@
 ---
 title: "digiHerb"
+format: 
+  dashboard:
+    orientation: columns
 ---
 
-## Column 
+## Column {width="35%"}
 
-This is the main dashboard
+This is the quiz dashboard
 
-## Column 
-...Second columns take 2 here
+## Column {width="65%"}
+
+...Second columns 
