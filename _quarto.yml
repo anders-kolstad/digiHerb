@@ -1,0 +1,29 @@
+project:
+  type: website
+
+website:
+  title: "digiHerb"
+  #favicon: images/logo.png
+  page-navigation: true
+  site-url: https://anders-kolstad.github.io/digiHerb
+  repo-url: https://github.com/anders-kolstad/digiHerb
+  repo-actions: [edit, source, issue]
+  sidebar:
+    title: "Sidebar Title"
+    style: "docked"
+    search: true
+    collapse-level: 1
+    #logo: images/logo.png
+    contents: 
+      - href: index.qmd
+        text: Søk etter bilde
+      - href: quiz.qmd
+        text: Plante quiz
+      
+format:
+  html:
+    theme: [cosmo, custom.scss]
+    highlight-style: atom-one-dark
+    toc: true
+    grid:
+      sidebar-width: 150px
