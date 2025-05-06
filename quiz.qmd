@@ -11,4 +11,4 @@ This is the quiz dashboard
 
 ## Column {width="65%"}
 
-...Second columns
+...Second columns 
