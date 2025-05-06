@@ -7,9 +7,21 @@ format:
 
 ## Column {width="35%"}
 
+### Row {height="20%"}
 This is the  dashboard
 ACTIONS
 
+### Row {height="20%"}
+```{r}
+1+1
+```
+
+
 ## Column {width="65%"}
+
+```{ojs}
+FileAttachment("img/Aconitum lycoctonum - tyrihjelm - kårstad - juli 2015.JPG").image()
+
+```
 
 ...Second columns 
