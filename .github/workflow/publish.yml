@@ -1,7 +1,7 @@
 on:
   workflow_dispatch:
   push:
-    branches: ojs
+    branches: master
 
 name: Quarto Publish
 
