@@ -1,0 +1,14 @@
+---
+title: "digiHerb"
+format: 
+  dashboard:
+    orientation: columns
+---
+
+## Column {width="35%"}
+
+This is the main dashboard
+
+## Column {width="65%"}
+
+...Second columns take 2
