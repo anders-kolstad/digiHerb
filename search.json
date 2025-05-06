@@ -1,0 +1,62 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "digiHerb",
+    "section": "",
+    "text": "This is the main dashboard",
+    "crumbs": [
+      "Søk etter bilde"
+    ]
+  },
+  {
+    "objectID": "index.html#column",
+    "href": "index.html#column",
+    "title": "digiHerb",
+    "section": "",
+    "text": "This is the main dashboard",
+    "crumbs": [
+      "Søk etter bilde"
+    ]
+  },
+  {
+    "objectID": "index.html#column-1",
+    "href": "index.html#column-1",
+    "title": "digiHerb",
+    "section": "Column",
+    "text": "Column\n…Second columns take 2 here",
+    "crumbs": [
+      "Søk etter bilde"
+    ]
+  },
+  {
+    "objectID": "quiz.html",
+    "href": "quiz.html",
+    "title": "quiz",
+    "section": "",
+    "text": "This is the quiz dashboard",
+    "crumbs": [
+      "Plante quiz"
+    ]
+  },
+  {
+    "objectID": "quiz.html#column",
+    "href": "quiz.html#column",
+    "title": "quiz",
+    "section": "",
+    "text": "This is the quiz dashboard",
+    "crumbs": [
+      "Plante quiz"
+    ]
+  },
+  {
+    "objectID": "quiz.html#column-1",
+    "href": "quiz.html#column-1",
+    "title": "quiz",
+    "section": "Column",
+    "text": "Column\n…Second columns",
+    "crumbs": [
+      "Plante quiz"
+    ]
+  }
+]
