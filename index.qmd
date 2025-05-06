@@ -11,4 +11,4 @@ This is the main dashboard
 
 ## Column {width="65%"}
 
-...Second columns take 2
+...Second columns take 2 here
