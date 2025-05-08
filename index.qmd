@@ -5,23 +5,136 @@ format:
     orientation: columns
 ---
 
+```{r setup}
+#| include: false
+#| warning: false
+#| message: false
+
+library(tidyverse)
+library(stringr)
+#library(DT)
+#library(slickR)
+#library(magick)
+library(stringi)
+```
+
+
+```{r prepData}
+#| include: false
+
+fam <- readRDS('slektOGfam.RData')
+
+
+lib <- tibble(
+  paths = list.files(path = "img/", recursive = T, full.names = F)
+) |>
+  # remove first five characters of the path
+  mutate(temp = substr(paths, 5, nchar(paths))) |>
+  separate(temp,
+    into = c(
+      "Vitenskapelig navn",
+      "Norsk navn",
+      "Funnsted",
+      "dato"
+    ),
+    extra = "drop",
+    sep = " - ",
+    remove = F
+  ) |>
+  separate(
+    col = "Vitenskapelig navn",
+    into = c("Slekt", 
+             "epitet"),
+    extra = "merge",
+    sep = " ",
+    remove=F
+  ) |>
+  mutate(
+    # remove file extension
+    dato = substr(dato, 1, nchar(dato)-4),
+    # extract year
+    "år" =  as.numeric(substr(dato, nchar(dato)-4, nchar(dato))),
+    paths = paste0("img/", paths)
+  ) |>
+  left_join(
+    fam, by = join_by(Slekt == slekt)
+  ) |>
+  rename(
+    Familie = familie
+  ) |>
+  select(
+    -temp
+  )
+
+
+# antall arter per slekt
+slekterDT <- lib |>
+  group_by(Slekt, Familie, epitet) |>
+  summarise(arter = n())
+
+# antall slekter og arter per familie
+famDT <- lib |>
+  group_by(Familie) |>
+  summarise(slekter = n_distinct(Slekt),
+            arter = n_distinct(epitet))
+
+
+rekke <- seq(min(lib$år, na.rm = T), 
+             max(lib$år, na.rm = T),1)
+antTaxa <- data.frame("År"= rekke,
+            "Unike_taxa" <- NA,
+            "Nye_taxa" <- NA)
+
+for(i in 1:length(rekke)){
+  antTaxa[i,2] <- length(unique(lib$`Vitenskapelig navn`[lib$år<=rekke[i]]))
+  ifelse(rekke[i] > min(rekke),  
+         antTaxa[i,3] <- antTaxa[i,2]-antTaxa[i-1,2],
+         antTaxa[i,3] <- antTaxa[i,2])
+}
+colnames(antTaxa) <- c("År", "Antall_arter", "Antall_nye_arter")
+
+ojs_define(dat = jsonlite::toJSON(lib))
+```
+
+
 ## Column {width="35%"}
 
 ### Row {height="20%"}
-This is the  dashboard
-ACTIONS
 
-### Row {height="20%"}
-```{r}
-1+1
+```{ojs}
+
+viewof selectedImagePath = Inputs.select(
+  JSON.parse(dat).map(d => d.paths),
+  {
+    label: "Velg bilde",
+    unique: true
+  }
+)
 ```
+
+
+### Row {height="80%"}
+```{ojs}
+selectedImagePath
+```
+
+
 
 
 ## Column {width="65%"}
 
-```{ojs}
-FileAttachment("img/Aconitum lycoctonum - tyrihjelm - kårstad - juli 2015.JPG").image()
 
+```{ojs}
+html`<img 
+    style="
+      border-radius: 12px;
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    "
+    src='${selectedImagePath}'
+    alt="Selected image"
+  >`
 ```
 
-...Second columns 
