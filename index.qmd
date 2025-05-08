@@ -3,6 +3,8 @@ title: "digiHerb"
 format: 
   dashboard:
     orientation: columns
+project: 
+  type: website
 ---
 
 ```{r setup}
