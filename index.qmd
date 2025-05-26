@@ -100,7 +100,7 @@ ojs_define(dat = jsonlite::toJSON(lib))
 
 ```{ojs}
 viewof selectedFamily = Inputs.select(
-  JSON.parse(dat).map(d => d.Familie), 
+  ["All", ...JSON.parse(dat).map(d => d.Familie)], 
   { label: "Velg familie",
   unique: true,
   searchable: true}
@@ -113,7 +113,10 @@ viewof selectedFamily = Inputs.select(
 ```{ojs}
 
 filteredData = {
-  return JSON.parse(dat).filter(d => d.Familie === selectedFamily);
+  const data = JSON.parse(dat);
+  return selectedFamily === "All" 
+    ? data                   // Show all rows if "All" is selected
+    : data.filter(d => d.Familie === selectedFamily); // Otherwise filter
 }
 
 viewof selectedImagePath = Inputs.select(
