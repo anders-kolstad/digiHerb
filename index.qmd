@@ -143,12 +143,9 @@ filteredGenus = {
 }
 
 viewof selectedTaxa = Inputs.select(
-  filteredGenus.map(d => ({
-    label: String(d.epitet),  
-    value: d
-  })),
+  filteredGenus.map(d => String(d.epitet)),
   { label: "Velg taxa",
-  format: (item) => item.label,
+  
   searchable: true,
   limit: 100,
   unique: true}
@@ -163,8 +160,9 @@ viewof selectedTaxa = Inputs.select(
 
 filteredTaxa = {
   const data = JSON.parse(dat);
-  return data.filter(d => d.Vitenskapelig_navn === selectedTaxa.value.Vitenskapelig_navn); 
+  return data.filter(d => d.epitet === selectedTaxa && d.Slekt === selectedGenus); 
 }
+
 
 viewof selectedImage = Inputs.select(
   filteredTaxa.map(d => ({
