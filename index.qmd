@@ -99,21 +99,38 @@ ojs_define(dat = jsonlite::toJSON(lib))
 ### Row {height="20%"}
 
 ```{ojs}
+viewof selectedFamily = Inputs.select(
+  JSON.parse(dat).map(d => d.Familie), 
+  { label: "Velg familie",
+  unique: true}
+)
+```
+
+```{ojs}
+//| expandable: false
+
+filteredData = {
+  return JSON.parse(dat).filter(d => d.Familie === selectedFamily);
+}
+```
+
+```{ojs}
 
 viewof selectedImagePath = Inputs.select(
-  JSON.parse(dat).map(d => ({label: d.Vitenskapelig_navn, value: d.paths})),
-  {
-    label: "Velg bilde",
-    unique: true,
-    format: (item) => item.label  // Display the file name in dropdown
-  }
+  filteredData.map(d => ({
+    label: String(d.Vitenskapelig_navn),  // Display name (or another column)
+    value: d        // Store the full row (or just a specific value)
+  })),
+  { label: "Select Item",
+  format: (item) => item.label}
 )
 ```
 
 
+
 ### Row {height="80%"}
 ```{ojs}
-selectedImagePath.value
+selectedImagePath.value.paths
 ```
 
 
@@ -132,7 +149,7 @@ html`<img
       display: block;
       margin: 0 auto;
     "
-    src='${selectedImagePath.value}'
+    src='${selectedImagePath.value.paths}'
     alt="Selected image"
   >`
 ```
