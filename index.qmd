@@ -112,29 +112,44 @@ viewof selectedFamily = Inputs.select(
 
 ```{ojs}
 
-filteredData = {
-  const data = JSON.parse(dat);
+filteredFamily = {
   return selectedFamily === "All" 
-    ? data                   // Show all rows if "All" is selected
-    : data.filter(d => d.Familie === selectedFamily); // Otherwise filter
+    ? JSON.parse(dat)                   
+    : JSON.parse(dat).filter(d => d.Familie === selectedFamily); 
 }
 
-viewof selectedImagePath = Inputs.select(
-  filteredData.map(d => ({
-    label: String(d.Vitenskapelig_navn),  // Display name (or another column)
-    value: d        // Store the full row (or just a specific value)
-  })),
-  { label: "Select Item",
-  format: (item) => item.label,
+viewof selectedGenus = Inputs.select(
+  filteredFamily.map(d2 => String(d2.Slekt)),
+  { label: "Velg slekt",
   searchable: true}
 )
 ```
 
+### Row {height="20%"}
 
+
+```{ojs}
+
+filteredGenus = {
+  const data = JSON.parse(dat);
+  return data.filter(d => d.Slekt === selectedGenus); 
+}
+
+viewof selectedTaxa = Inputs.select(
+  filteredGenus.map(d => ({
+    label: String(d.epitet),  
+    value: d
+  })),
+  { label: "Velg taxa",
+  format: (item) => item.label,
+  searchable: true,
+  limit: 100}
+)
+```
 
 ### Row {height="20%"}
 ```{ojs}
-selectedImagePath.value.paths
+selectedTaxa.value.paths
 ```
 
 
@@ -153,7 +168,7 @@ html`<img
       display: block;
       margin: 0 auto;
     "
-    src='${selectedImagePath.value.paths}'
+    src='${selectedTaxa.value.paths}'
     alt="Selected image"
   >`
 ```
