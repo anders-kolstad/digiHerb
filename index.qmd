@@ -26,14 +26,14 @@ fam <- readRDS('slektOGfam.RData')
 
 
 lib <- tibble(
-  paths = list.files(path = "docs/img/", recursive = T, full.names = F)
+  paths = list.files(path = "img/", recursive = T, full.names = F)
 ) |>
   # remove first five characters of the path
   #mutate(temp = substr(paths, 5, nchar(paths))) |>
   separate(paths,
     into = c(
       "Vitenskapelig_navn",
-      "Norsk navn",
+      "Norsk_navn",
       "Funnsted",
       "dato"
     ),
@@ -56,6 +56,12 @@ lib <- tibble(
     "år" =  as.numeric(substr(dato, nchar(dato)-4, nchar(dato))),
     paths = paste0("img/", paths)
   ) |>
+  unite(col = image, 
+      Norsk_navn,
+      Funnsted,
+      dato,
+      sep = ", ",
+      remove = F) |>
   left_join(
     fam, by = join_by(Slekt == slekt)
   ) |>
@@ -96,7 +102,7 @@ ojs_define(dat = jsonlite::toJSON(lib))
 
 ## Column {width="35%"}
 
-### Row {height="20%"}
+### Row {height="10%"}
 
 ```{ojs}
 viewof selectedFamily = Inputs.select(
@@ -107,7 +113,7 @@ viewof selectedFamily = Inputs.select(
 )
 ```
 
-### Row {height="20%"}
+### Row {height="10%"}
 
 
 ```{ojs}
@@ -121,11 +127,12 @@ filteredFamily = {
 viewof selectedGenus = Inputs.select(
   filteredFamily.map(d2 => String(d2.Slekt)),
   { label: "Velg slekt",
-  searchable: true}
+  searchable: true,
+  unique: true}
 )
 ```
 
-### Row {height="20%"}
+### Row {height="10%"}
 
 
 ```{ojs}
@@ -143,13 +150,37 @@ viewof selectedTaxa = Inputs.select(
   { label: "Velg taxa",
   format: (item) => item.label,
   searchable: true,
+  limit: 100,
+  unique: true}
+)
+```
+
+
+### Row {height="10%"}
+
+
+```{ojs}
+
+filteredTaxa = {
+  const data = JSON.parse(dat);
+  return data.filter(d => d.Vitenskapelig_navn === selectedTaxa.value.Vitenskapelig_navn); 
+}
+
+viewof selectedImage = Inputs.select(
+  filteredTaxa.map(d => ({
+    label: String(d.image),  
+    value: d
+  })),
+  { label: "Velg bilde",
+  format: (item) => item.label,
+  searchable: true,
   limit: 100}
 )
 ```
 
-### Row {height="20%"}
+### Row {height="10%"}
 ```{ojs}
-selectedTaxa.value.paths
+selectedImage.value.paths
 ```
 
 
@@ -168,7 +199,7 @@ html`<img
       display: block;
       margin: 0 auto;
     "
-    src='${selectedTaxa.value.paths}'
+    src='${selectedImage.value.paths}'
     alt="Selected image"
   >`
 ```
