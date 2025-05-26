@@ -9,7 +9,7 @@ Anders' digitale herbarium
 
 ## Workflow for updating the dashboard
 - Download the photos from pCloud
-- Update `docs/img` on main. Remember to check if you modified some images, but kept the same file name, that you actually repace it. Best practice is to just replace everything. I don't think that will trigger git to treat all identical files as new, but not sure.
+- Update `docs/img` on main by first deleting all files and pasting inn the new, with no git commits in between. Git will not treat the same files as new unless they have been modified.
 - Re-run `familienavn.R` to update * slektOGfam.RData`
 - Render ìndex.qmd`
 - Move files from `_site` to replace those in `docs`
