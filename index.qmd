@@ -139,7 +139,6 @@ viewof selectedFamily = Inputs.select(
 
 ### Row {height="10%"}
 
-
 ```{ojs}
 filteredFamily = {
   return selectedFamily === "All" 
