@@ -8,7 +8,7 @@ library(dplyr)
 
 # To do. Søk blant unique(slekt)
 
-paths <-list.files(path = "../bilder/",
+paths <-list.files(path = "img/",
                      recursive = T, full.names = F)
 lib <- as.data.frame(paths)
 lib$temp <-  substr(paths, 5, nchar(paths))
