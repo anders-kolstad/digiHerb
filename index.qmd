@@ -102,19 +102,19 @@ ojs_define(dat = jsonlite::toJSON(lib))
 viewof selectedFamily = Inputs.select(
   JSON.parse(dat).map(d => d.Familie), 
   { label: "Velg familie",
-  unique: true}
+  unique: true,
+  searchable: true}
 )
 ```
 
+### Row {height="20%"}
+
+
 ```{ojs}
-//| expandable: false
 
 filteredData = {
   return JSON.parse(dat).filter(d => d.Familie === selectedFamily);
 }
-```
-
-```{ojs}
 
 viewof selectedImagePath = Inputs.select(
   filteredData.map(d => ({
@@ -122,13 +122,14 @@ viewof selectedImagePath = Inputs.select(
     value: d        // Store the full row (or just a specific value)
   })),
   { label: "Select Item",
-  format: (item) => item.label}
+  format: (item) => item.label,
+  searchable: true}
 )
 ```
 
 
 
-### Row {height="80%"}
+### Row {height="20%"}
 ```{ojs}
 selectedImagePath.value.paths
 ```
