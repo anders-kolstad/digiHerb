@@ -26,13 +26,13 @@ fam <- readRDS('slektOGfam.RData')
 
 
 lib <- tibble(
-  paths = list.files(path = "img/", recursive = T, full.names = F)
+  paths = list.files(path = "docs/img/", recursive = T, full.names = F)
 ) |>
   # remove first five characters of the path
-  mutate(temp = substr(paths, 5, nchar(paths))) |>
-  separate(temp,
+  #mutate(temp = substr(paths, 5, nchar(paths))) |>
+  separate(paths,
     into = c(
-      "Vitenskapelig navn",
+      "Vitenskapelig_navn",
       "Norsk navn",
       "Funnsted",
       "dato"
@@ -42,7 +42,7 @@ lib <- tibble(
     remove = F
   ) |>
   separate(
-    col = "Vitenskapelig navn",
+    col = "Vitenskapelig_navn",
     into = c("Slekt", 
              "epitet"),
     extra = "merge",
@@ -61,10 +61,7 @@ lib <- tibble(
   ) |>
   rename(
     Familie = familie
-  ) |>
-  select(
-    -temp
-  )
+  ) 
 
 
 # antall arter per slekt
@@ -86,7 +83,7 @@ antTaxa <- data.frame("År"= rekke,
             "Nye_taxa" <- NA)
 
 for(i in 1:length(rekke)){
-  antTaxa[i,2] <- length(unique(lib$`Vitenskapelig navn`[lib$år<=rekke[i]]))
+  antTaxa[i,2] <- length(unique(lib$Vitenskapelig_navn[lib$år<=rekke[i]]))
   ifelse(rekke[i] > min(rekke),  
          antTaxa[i,3] <- antTaxa[i,2]-antTaxa[i-1,2],
          antTaxa[i,3] <- antTaxa[i,2])
@@ -104,10 +101,11 @@ ojs_define(dat = jsonlite::toJSON(lib))
 ```{ojs}
 
 viewof selectedImagePath = Inputs.select(
-  JSON.parse(dat).map(d => d.paths),
+  JSON.parse(dat).map(d => ({label: d.Vitenskapelig_navn, value: d.paths})),
   {
     label: "Velg bilde",
-    unique: true
+    unique: true,
+    format: (item) => item.label  // Display the file name in dropdown
   }
 )
 ```
@@ -115,8 +113,9 @@ viewof selectedImagePath = Inputs.select(
 
 ### Row {height="80%"}
 ```{ojs}
-selectedImagePath
+selectedImagePath.value
 ```
+
 
 
 
@@ -133,7 +132,7 @@ html`<img
       display: block;
       margin: 0 auto;
     "
-    src='${selectedImagePath}'
+    src='${selectedImagePath.value}'
     alt="Selected image"
   >`
 ```
