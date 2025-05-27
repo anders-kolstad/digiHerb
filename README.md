@@ -14,5 +14,5 @@ Anders' digitale herbarium
 - Render ìndex.qmd` (output to `_site`)
 - Copy `img` over to `_site`
 - Open `_site/index.html` in editor (RStudio) and then preview. Check that everythink is OK.
-- Move files from `_site` to replace those in `docs`
+- Move files from `_site` to replace those in `docs`. Don't delete the file `.nojekyll`.
 - Push to github. Github deploys from `docs`.
