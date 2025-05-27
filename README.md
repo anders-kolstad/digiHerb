@@ -8,13 +8,14 @@ Anders' digitale herbarium
 `img`: a gitignored folder with all the images. 
 
 ## Workflow for updating the dashboard
-- Download the photos from pCloud
-- Update `img` locally by first deleting all files and pasting inn the new. This folder is ignored by git.
+- Download the photos from pCloud and into `img` (clear that folder first). A good idea is to keep new or edited pictures in a seperate folder (e.g. `1 - prep`) and then just download that one. 
 - Compress the images by opening a terminal from the root folder and running `magick mogrify -resize 1200x -quality 80 *.jpg`. Deploying with original resolution couses memory issues on the runners.
-- Delete and replace the pictures in `docs/img`. Git will not treat the same files as new unless they have been modified, but due to re-compressing, it probably will treat them as new files.
+- Add the new pictures to `docs/img`.
+- Copy the complie `docs/img` folder over too root so that you can render the qmd correctly.
 - Re-run `familienavn.R` to update * slektOGfam.RData`
 - Render ìndex.qmd` (output to `_site`)
 - Copy `img` over to `_site`
 - Open `_site/index.html` in editor (RStudio) and then preview. Check that everythink is OK.
 - Move files from `_site` to replace those in `docs`
 - Push to github. Github deploys from `docs`.
+- Clear `_site` and `img` to save local disc space.
