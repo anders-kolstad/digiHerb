@@ -114,7 +114,7 @@ dagensAntall <- lib |>
 
 ## Column {width="35%"}
 
-### Row {height="15%"}
+### Row {height="10%"}
 
 ```{r}
 #| content: valuebox
@@ -126,7 +126,7 @@ list(
 )
 ```
 
-### Row {height="10%"}
+### Row {height="10%" .flow}
 
 ```{ojs}
 viewof selectedFamily = Inputs.select(
@@ -137,8 +137,7 @@ viewof selectedFamily = Inputs.select(
 )
 ```
 
-### Row {height="10%"}
-
+### Row {height="10%" .flow}
 ```{ojs}
 filteredFamily = {
   return selectedFamily === "All" 
@@ -154,9 +153,7 @@ viewof selectedGenus = Inputs.select(
 )
 ```
 
-### Row {height="10%"}
-
-
+### Row {height="10%" .flow}
 ```{ojs}
 filteredGenus = {
   const data = JSON.parse(dat);
@@ -173,10 +170,7 @@ viewof selectedTaxa = Inputs.select(
 )
 ```
 
-
-### Row {height="10%"}
-
-
+### Row {height="10%" .flow}
 ```{ojs}
 
 filteredTaxa = {
