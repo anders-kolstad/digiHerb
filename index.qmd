@@ -130,7 +130,7 @@ list(
 
 ```{ojs}
 viewof selectedFamily = Inputs.select(
-  ["All", ...JSON.parse(dat).map(d => d.Familie)], 
+  ["All", ...JSON.parse(dat).map(d => d.Familie).sort((a, b) => a.localeCompare(b))], 
   { label: "Velg familie",
   unique: true,
   searchable: true}

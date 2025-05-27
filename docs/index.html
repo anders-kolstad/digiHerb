@@ -150,7 +150,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div class="bslib-grid-item html-fill-item bslib-grid" data-layout="fill" style="display: grid; grid-template-columns: minmax(3em, 35fr) minmax(3em, 65fr);
 grid-auto-rows: minmax(0, 1fr);">
-<div class="bslib-grid" style="display: grid; grid-template-rows: minmax(3em, 15fr) minmax(3em, 10fr) minmax(3em, 10fr) minmax(3em, 10fr) minmax(3em, 10fr); grid-auto-columns: minmax(0, 1fr);">
+<div class="bslib-grid" style="display: grid; grid-template-rows: minmax(3em, 10fr) minmax(3em, 10fr) minmax(3em, 10fr) minmax(3em, 10fr) minmax(3em, 10fr); grid-auto-columns: minmax(0, 1fr);">
 <div class="bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
 grid-auto-rows: minmax(0, 1fr);">
 <div class="card valuebox cell bslib-card html-fill-container bslib-value-box bg-success showcase-left-center" data-bslib-card-init="" data-require-bs-caller="card()">
@@ -171,12 +171,12 @@ Antall taxa i databasen
 </div>
 <script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
 </div>
-<div class="bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
+<div class="flow bslib-grid" data-layout="flow" style="display: grid; grid-template-columns: minmax(3em, 1fr);
 grid-auto-rows: minmax(0, 1fr);">
 <div class="card cell bslib-card html-fill-container" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-body html-fill-item html-fill-container">
 <div class="sourceCode cell-code hidden html-fill-item html-fill-container" id="cb1" data-startfrom="131" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 130;"><span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a>viewof selectedFamily <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(</span>
-<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a>  [<span class="st">"All"</span><span class="op">,</span> <span class="op">...</span><span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(dat)<span class="op">.</span><span class="fu">map</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">Familie</span>)]<span class="op">,</span> </span>
+<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a>  [<span class="st">"All"</span><span class="op">,</span> <span class="op">...</span><span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(dat)<span class="op">.</span><span class="fu">map</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">Familie</span>)<span class="op">.</span><span class="fu">sort</span>((a<span class="op">,</span> b) <span class="kw">=&gt;</span> a<span class="op">.</span><span class="fu">localeCompare</span>(b))]<span class="op">,</span> </span>
 <span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a>  { <span class="dt">label</span><span class="op">:</span> <span class="st">"Velg familie"</span><span class="op">,</span></span>
 <span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a>  <span class="dt">unique</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
 <span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a>  <span class="dt">searchable</span><span class="op">:</span> <span class="kw">true</span>}</span>
@@ -194,22 +194,22 @@ grid-auto-rows: minmax(0, 1fr);">
     </span>
 </bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
 </div>
-<div class="bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
+<div class="flow bslib-grid" data-layout="flow" style="display: grid; grid-template-columns: minmax(3em, 1fr);
 grid-auto-rows: minmax(0, 1fr);">
 <div class="card cell bslib-card html-fill-container" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-body html-fill-item html-fill-container">
-<div class="sourceCode cell-code hidden html-fill-item html-fill-container" id="cb2" data-startfrom="143" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 142;"><span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a>filteredFamily <span class="op">=</span> {</span>
-<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> selectedFamily <span class="op">===</span> <span class="st">"All"</span> </span>
-<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a>    <span class="op">?</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(dat)                   </span>
-<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a>    <span class="op">:</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(dat)<span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">Familie</span> <span class="op">===</span> selectedFamily)<span class="op">;</span> </span>
-<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a>viewof selectedGenus <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(</span>
-<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a>  filteredFamily<span class="op">.</span><span class="fu">map</span>(d2 <span class="kw">=&gt;</span> <span class="bu">String</span>(d2<span class="op">.</span><span class="at">Slekt</span>))<span class="op">,</span></span>
-<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a>  { <span class="dt">label</span><span class="op">:</span> <span class="st">"Velg slekt"</span><span class="op">,</span></span>
-<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a>  <span class="dt">searchable</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
-<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a>  <span class="dt">unique</span><span class="op">:</span> <span class="kw">true</span>}</span>
-<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden html-fill-item html-fill-container" id="cb2" data-startfrom="142" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 141;"><span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a>filteredFamily <span class="op">=</span> {</span>
+<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> selectedFamily <span class="op">===</span> <span class="st">"All"</span> </span>
+<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a>    <span class="op">?</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(dat)                   </span>
+<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a>    <span class="op">:</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(dat)<span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">Familie</span> <span class="op">===</span> selectedFamily)<span class="op">;</span> </span>
+<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a>viewof selectedGenus <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(</span>
+<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a>  filteredFamily<span class="op">.</span><span class="fu">map</span>(d2 <span class="kw">=&gt;</span> <span class="bu">String</span>(d2<span class="op">.</span><span class="at">Slekt</span>))<span class="op">,</span></span>
+<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a>  { <span class="dt">label</span><span class="op">:</span> <span class="st">"Velg slekt"</span><span class="op">,</span></span>
+<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a>  <span class="dt">searchable</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a>  <span class="dt">unique</span><span class="op">:</span> <span class="kw">true</span>}</span>
+<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div class="html-fill-item html-fill-container">
 <div id="ojs-cell-2-1" data-nodetype="declaration" class="html-fill-item html-fill-container">
@@ -232,23 +232,23 @@ grid-auto-rows: minmax(0, 1fr);">
     </span>
 </bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
 </div>
-<div class="bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
+<div class="flow bslib-grid" data-layout="flow" style="display: grid; grid-template-columns: minmax(3em, 1fr);
 grid-auto-rows: minmax(0, 1fr);">
 <div class="card cell bslib-card html-fill-container" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-body html-fill-item html-fill-container">
-<div class="sourceCode cell-code hidden html-fill-item html-fill-container" id="cb3" data-startfrom="161" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 160;"><span id="cb3-161"><a href="#cb3-161" aria-hidden="true" tabindex="-1"></a>filteredGenus <span class="op">=</span> {</span>
-<span id="cb3-162"><a href="#cb3-162" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> data <span class="op">=</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(dat)<span class="op">;</span></span>
-<span id="cb3-163"><a href="#cb3-163" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> data<span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">Slekt</span> <span class="op">===</span> selectedGenus)<span class="op">;</span> </span>
-<span id="cb3-164"><a href="#cb3-164" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-165"><a href="#cb3-165" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-166"><a href="#cb3-166" aria-hidden="true" tabindex="-1"></a>viewof selectedTaxa <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(</span>
-<span id="cb3-167"><a href="#cb3-167" aria-hidden="true" tabindex="-1"></a>  filteredGenus<span class="op">.</span><span class="fu">map</span>(d <span class="kw">=&gt;</span> <span class="bu">String</span>(d<span class="op">.</span><span class="at">epitet</span>))<span class="op">,</span></span>
-<span id="cb3-168"><a href="#cb3-168" aria-hidden="true" tabindex="-1"></a>  { <span class="dt">label</span><span class="op">:</span> <span class="st">"Velg taxa"</span><span class="op">,</span></span>
-<span id="cb3-169"><a href="#cb3-169" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-170"><a href="#cb3-170" aria-hidden="true" tabindex="-1"></a>  <span class="dt">searchable</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
-<span id="cb3-171"><a href="#cb3-171" aria-hidden="true" tabindex="-1"></a>  <span class="dt">limit</span><span class="op">:</span> <span class="dv">100</span><span class="op">,</span></span>
-<span id="cb3-172"><a href="#cb3-172" aria-hidden="true" tabindex="-1"></a>  <span class="dt">unique</span><span class="op">:</span> <span class="kw">true</span>}</span>
-<span id="cb3-173"><a href="#cb3-173" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden html-fill-item html-fill-container" id="cb3" data-startfrom="158" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 157;"><span id="cb3-158"><a href="#cb3-158" aria-hidden="true" tabindex="-1"></a>filteredGenus <span class="op">=</span> {</span>
+<span id="cb3-159"><a href="#cb3-159" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> data <span class="op">=</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(dat)<span class="op">;</span></span>
+<span id="cb3-160"><a href="#cb3-160" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> data<span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">Slekt</span> <span class="op">===</span> selectedGenus)<span class="op">;</span> </span>
+<span id="cb3-161"><a href="#cb3-161" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-162"><a href="#cb3-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-163"><a href="#cb3-163" aria-hidden="true" tabindex="-1"></a>viewof selectedTaxa <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(</span>
+<span id="cb3-164"><a href="#cb3-164" aria-hidden="true" tabindex="-1"></a>  filteredGenus<span class="op">.</span><span class="fu">map</span>(d <span class="kw">=&gt;</span> <span class="bu">String</span>(d<span class="op">.</span><span class="at">epitet</span>))<span class="op">,</span></span>
+<span id="cb3-165"><a href="#cb3-165" aria-hidden="true" tabindex="-1"></a>  { <span class="dt">label</span><span class="op">:</span> <span class="st">"Velg taxa"</span><span class="op">,</span></span>
+<span id="cb3-166"><a href="#cb3-166" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-167"><a href="#cb3-167" aria-hidden="true" tabindex="-1"></a>  <span class="dt">searchable</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb3-168"><a href="#cb3-168" aria-hidden="true" tabindex="-1"></a>  <span class="dt">limit</span><span class="op">:</span> <span class="dv">100</span><span class="op">,</span></span>
+<span id="cb3-169"><a href="#cb3-169" aria-hidden="true" tabindex="-1"></a>  <span class="dt">unique</span><span class="op">:</span> <span class="kw">true</span>}</span>
+<span id="cb3-170"><a href="#cb3-170" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div class="html-fill-item html-fill-container">
 <div id="ojs-cell-3-1" data-nodetype="declaration" class="html-fill-item html-fill-container">
@@ -271,26 +271,26 @@ grid-auto-rows: minmax(0, 1fr);">
     </span>
 </bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
 </div>
-<div class="bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
+<div class="flow bslib-grid" data-layout="flow" style="display: grid; grid-template-columns: minmax(3em, 1fr);
 grid-auto-rows: minmax(0, 1fr);">
 <div class="card cell bslib-card html-fill-container" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-body html-fill-item html-fill-container">
-<div class="sourceCode cell-code hidden html-fill-item html-fill-container" id="cb4" data-startfrom="182" data-source-offset="-1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 181;"><span id="cb4-182"><a href="#cb4-182" aria-hidden="true" tabindex="-1"></a>filteredTaxa <span class="op">=</span> {</span>
-<span id="cb4-183"><a href="#cb4-183" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> data <span class="op">=</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(dat)<span class="op">;</span></span>
-<span id="cb4-184"><a href="#cb4-184" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> data<span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">epitet</span> <span class="op">===</span> selectedTaxa <span class="op">&amp;&amp;</span> d<span class="op">.</span><span class="at">Slekt</span> <span class="op">===</span> selectedGenus)<span class="op">;</span> </span>
-<span id="cb4-185"><a href="#cb4-185" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb4-186"><a href="#cb4-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-187"><a href="#cb4-187" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-188"><a href="#cb4-188" aria-hidden="true" tabindex="-1"></a>viewof selectedImage <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(</span>
-<span id="cb4-189"><a href="#cb4-189" aria-hidden="true" tabindex="-1"></a>  filteredTaxa<span class="op">.</span><span class="fu">map</span>(d <span class="kw">=&gt;</span> ({</span>
-<span id="cb4-190"><a href="#cb4-190" aria-hidden="true" tabindex="-1"></a>    <span class="dt">label</span><span class="op">:</span> <span class="bu">String</span>(d<span class="op">.</span><span class="at">image</span>)<span class="op">,</span>  </span>
-<span id="cb4-191"><a href="#cb4-191" aria-hidden="true" tabindex="-1"></a>    <span class="dt">value</span><span class="op">:</span> d</span>
-<span id="cb4-192"><a href="#cb4-192" aria-hidden="true" tabindex="-1"></a>  }))<span class="op">,</span></span>
-<span id="cb4-193"><a href="#cb4-193" aria-hidden="true" tabindex="-1"></a>  { <span class="dt">label</span><span class="op">:</span> <span class="st">"Velg bilde"</span><span class="op">,</span></span>
-<span id="cb4-194"><a href="#cb4-194" aria-hidden="true" tabindex="-1"></a>  <span class="dt">format</span><span class="op">:</span> (item) <span class="kw">=&gt;</span> item<span class="op">.</span><span class="at">label</span><span class="op">,</span></span>
-<span id="cb4-195"><a href="#cb4-195" aria-hidden="true" tabindex="-1"></a>  <span class="dt">searchable</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
-<span id="cb4-196"><a href="#cb4-196" aria-hidden="true" tabindex="-1"></a>  <span class="dt">limit</span><span class="op">:</span> <span class="dv">100</span>}</span>
-<span id="cb4-197"><a href="#cb4-197" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden html-fill-item html-fill-container" id="cb4" data-startfrom="176" data-source-offset="-1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 175;"><span id="cb4-176"><a href="#cb4-176" aria-hidden="true" tabindex="-1"></a>filteredTaxa <span class="op">=</span> {</span>
+<span id="cb4-177"><a href="#cb4-177" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> data <span class="op">=</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(dat)<span class="op">;</span></span>
+<span id="cb4-178"><a href="#cb4-178" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> data<span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> d<span class="op">.</span><span class="at">epitet</span> <span class="op">===</span> selectedTaxa <span class="op">&amp;&amp;</span> d<span class="op">.</span><span class="at">Slekt</span> <span class="op">===</span> selectedGenus)<span class="op">;</span> </span>
+<span id="cb4-179"><a href="#cb4-179" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-180"><a href="#cb4-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-181"><a href="#cb4-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-182"><a href="#cb4-182" aria-hidden="true" tabindex="-1"></a>viewof selectedImage <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(</span>
+<span id="cb4-183"><a href="#cb4-183" aria-hidden="true" tabindex="-1"></a>  filteredTaxa<span class="op">.</span><span class="fu">map</span>(d <span class="kw">=&gt;</span> ({</span>
+<span id="cb4-184"><a href="#cb4-184" aria-hidden="true" tabindex="-1"></a>    <span class="dt">label</span><span class="op">:</span> <span class="bu">String</span>(d<span class="op">.</span><span class="at">image</span>)<span class="op">,</span>  </span>
+<span id="cb4-185"><a href="#cb4-185" aria-hidden="true" tabindex="-1"></a>    <span class="dt">value</span><span class="op">:</span> d</span>
+<span id="cb4-186"><a href="#cb4-186" aria-hidden="true" tabindex="-1"></a>  }))<span class="op">,</span></span>
+<span id="cb4-187"><a href="#cb4-187" aria-hidden="true" tabindex="-1"></a>  { <span class="dt">label</span><span class="op">:</span> <span class="st">"Velg bilde"</span><span class="op">,</span></span>
+<span id="cb4-188"><a href="#cb4-188" aria-hidden="true" tabindex="-1"></a>  <span class="dt">format</span><span class="op">:</span> (item) <span class="kw">=&gt;</span> item<span class="op">.</span><span class="at">label</span><span class="op">,</span></span>
+<span id="cb4-189"><a href="#cb4-189" aria-hidden="true" tabindex="-1"></a>  <span class="dt">searchable</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb4-190"><a href="#cb4-190" aria-hidden="true" tabindex="-1"></a>  <span class="dt">limit</span><span class="op">:</span> <span class="dv">100</span>}</span>
+<span id="cb4-191"><a href="#cb4-191" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div class="html-fill-item html-fill-container">
 <div id="ojs-cell-4-1" data-nodetype="declaration" class="html-fill-item html-fill-container">
@@ -327,17 +327,17 @@ grid-auto-rows: minmax(0, 1fr);">
 
 </div>
 <div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-6"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-6-1"><div class="card-body html-fill-item html-fill-container" data-title="Se bilde">
-<div class="sourceCode cell-code hidden html-fill-item html-fill-container" id="cb5" data-startfrom="205" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 204;"><span id="cb5-205"><a href="#cb5-205" aria-hidden="true" tabindex="-1"></a><span class="fu">html</span><span class="vs">`&lt;img </span></span>
-<span id="cb5-206"><a href="#cb5-206" aria-hidden="true" tabindex="-1"></a><span class="vs">    style="</span></span>
-<span id="cb5-207"><a href="#cb5-207" aria-hidden="true" tabindex="-1"></a><span class="vs">      border-radius: 12px;</span></span>
-<span id="cb5-208"><a href="#cb5-208" aria-hidden="true" tabindex="-1"></a><span class="vs">      max-width: 100%;</span></span>
-<span id="cb5-209"><a href="#cb5-209" aria-hidden="true" tabindex="-1"></a><span class="vs">      height: auto;</span></span>
-<span id="cb5-210"><a href="#cb5-210" aria-hidden="true" tabindex="-1"></a><span class="vs">      display: block;</span></span>
-<span id="cb5-211"><a href="#cb5-211" aria-hidden="true" tabindex="-1"></a><span class="vs">      margin: 0 auto;</span></span>
-<span id="cb5-212"><a href="#cb5-212" aria-hidden="true" tabindex="-1"></a><span class="vs">    "</span></span>
-<span id="cb5-213"><a href="#cb5-213" aria-hidden="true" tabindex="-1"></a><span class="vs">    src='</span><span class="sc">${</span>selectedImage<span class="op">.</span><span class="at">value</span><span class="op">.</span><span class="at">paths</span><span class="sc">}</span><span class="vs">'</span></span>
-<span id="cb5-214"><a href="#cb5-214" aria-hidden="true" tabindex="-1"></a><span class="vs">    alt="Selected image"</span></span>
-<span id="cb5-215"><a href="#cb5-215" aria-hidden="true" tabindex="-1"></a><span class="vs">  &gt;`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden html-fill-item html-fill-container" id="cb5" data-startfrom="199" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 198;"><span id="cb5-199"><a href="#cb5-199" aria-hidden="true" tabindex="-1"></a><span class="fu">html</span><span class="vs">`&lt;img </span></span>
+<span id="cb5-200"><a href="#cb5-200" aria-hidden="true" tabindex="-1"></a><span class="vs">    style="</span></span>
+<span id="cb5-201"><a href="#cb5-201" aria-hidden="true" tabindex="-1"></a><span class="vs">      border-radius: 12px;</span></span>
+<span id="cb5-202"><a href="#cb5-202" aria-hidden="true" tabindex="-1"></a><span class="vs">      max-width: 100%;</span></span>
+<span id="cb5-203"><a href="#cb5-203" aria-hidden="true" tabindex="-1"></a><span class="vs">      height: auto;</span></span>
+<span id="cb5-204"><a href="#cb5-204" aria-hidden="true" tabindex="-1"></a><span class="vs">      display: block;</span></span>
+<span id="cb5-205"><a href="#cb5-205" aria-hidden="true" tabindex="-1"></a><span class="vs">      margin: 0 auto;</span></span>
+<span id="cb5-206"><a href="#cb5-206" aria-hidden="true" tabindex="-1"></a><span class="vs">    "</span></span>
+<span id="cb5-207"><a href="#cb5-207" aria-hidden="true" tabindex="-1"></a><span class="vs">    src='</span><span class="sc">${</span>selectedImage<span class="op">.</span><span class="at">value</span><span class="op">.</span><span class="at">paths</span><span class="sc">}</span><span class="vs">'</span></span>
+<span id="cb5-208"><a href="#cb5-208" aria-hidden="true" tabindex="-1"></a><span class="vs">    alt="Selected image"</span></span>
+<span id="cb5-209"><a href="#cb5-209" aria-hidden="true" tabindex="-1"></a><span class="vs">  &gt;`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display html-fill-item html-fill-container">
 <div id="ojs-cell-5" data-nodetype="expression" class="html-fill-item html-fill-container">
 
@@ -362,7 +362,7 @@ grid-auto-rows: minmax(0, 1fr);">
 
 
 <script type="ojs-module-contents">
-eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6InZpZXdvZiBzZWxlY3RlZEZhbWlseSA9IElucHV0cy5zZWxlY3QoXG4gIFtcIkFsbFwiLCAuLi5KU09OLnBhcnNlKGRhdCkubWFwKGQgPT4gZC5GYW1pbGllKV0sIFxuICB7IGxhYmVsOiBcIlZlbGcgZmFtaWxpZVwiLFxuICB1bmlxdWU6IHRydWUsXG4gIHNlYXJjaGFibGU6IHRydWV9XG4pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTIiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJmaWx0ZXJlZEZhbWlseSA9IHtcbiAgcmV0dXJuIHNlbGVjdGVkRmFtaWx5ID09PSBcIkFsbFwiIFxuICAgID8gSlNPTi5wYXJzZShkYXQpICAgICAgICAgICAgICAgICAgIFxuICAgIDogSlNPTi5wYXJzZShkYXQpLmZpbHRlcihkID0+IGQuRmFtaWxpZSA9PT0gc2VsZWN0ZWRGYW1pbHkpOyBcbn1cblxudmlld29mIHNlbGVjdGVkR2VudXMgPSBJbnB1dHMuc2VsZWN0KFxuICBmaWx0ZXJlZEZhbWlseS5tYXAoZDIgPT4gU3RyaW5nKGQyLlNsZWt0KSksXG4gIHsgbGFiZWw6IFwiVmVsZyBzbGVrdFwiLFxuICBzZWFyY2hhYmxlOiB0cnVlLFxuICB1bmlxdWU6IHRydWV9XG4pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTMiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJmaWx0ZXJlZEdlbnVzID0ge1xuICBjb25zdCBkYXRhID0gSlNPTi5wYXJzZShkYXQpO1xuICByZXR1cm4gZGF0YS5maWx0ZXIoZCA9PiBkLlNsZWt0ID09PSBzZWxlY3RlZEdlbnVzKTsgXG59XG5cbnZpZXdvZiBzZWxlY3RlZFRheGEgPSBJbnB1dHMuc2VsZWN0KFxuICBmaWx0ZXJlZEdlbnVzLm1hcChkID0+IFN0cmluZyhkLmVwaXRldCkpLFxuICB7IGxhYmVsOiBcIlZlbGcgdGF4YVwiLFxuICBcbiAgc2VhcmNoYWJsZTogdHJ1ZSxcbiAgbGltaXQ6IDEwMCxcbiAgdW5pcXVlOiB0cnVlfVxuKVxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC00IiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoiXG5maWx0ZXJlZFRheGEgPSB7XG4gIGNvbnN0IGRhdGEgPSBKU09OLnBhcnNlKGRhdCk7XG4gIHJldHVybiBkYXRhLmZpbHRlcihkID0+IGQuZXBpdGV0ID09PSBzZWxlY3RlZFRheGEgJiYgZC5TbGVrdCA9PT0gc2VsZWN0ZWRHZW51cyk7IFxufVxuXG5cbnZpZXdvZiBzZWxlY3RlZEltYWdlID0gSW5wdXRzLnNlbGVjdChcbiAgZmlsdGVyZWRUYXhhLm1hcChkID0+ICh7XG4gICAgbGFiZWw6IFN0cmluZyhkLmltYWdlKSwgIFxuICAgIHZhbHVlOiBkXG4gIH0pKSxcbiAgeyBsYWJlbDogXCJWZWxnIGJpbGRlXCIsXG4gIGZvcm1hdDogKGl0ZW0pID0+IGl0ZW0ubGFiZWwsXG4gIHNlYXJjaGFibGU6IHRydWUsXG4gIGxpbWl0OiAxMDB9XG4pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTUiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJcbmh0bWxgPGltZyBcbiAgICBzdHlsZT1cIlxuICAgICAgYm9yZGVyLXJhZGl1czogMTJweDtcbiAgICAgIG1heC13aWR0aDogMTAwJTtcbiAgICAgIGhlaWdodDogYXV0bztcbiAgICAgIGRpc3BsYXk6IGJsb2NrO1xuICAgICAgbWFyZ2luOiAwIGF1dG87XG4gICAgXCJcbiAgICBzcmM9JyR7c2VsZWN0ZWRJbWFnZS52YWx1ZS5wYXRoc30nXG4gICAgYWx0PVwiU2VsZWN0ZWQgaW1hZ2VcIlxuICA+YFxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdzZWxlY3RlZEZhbWlseScpIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdzZWxlY3RlZEdlbnVzJykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ3NlbGVjdGVkVGF4YScpIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdzZWxlY3RlZEltYWdlJykifV19
+eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6InZpZXdvZiBzZWxlY3RlZEZhbWlseSA9IElucHV0cy5zZWxlY3QoXG4gIFtcIkFsbFwiLCAuLi5KU09OLnBhcnNlKGRhdCkubWFwKGQgPT4gZC5GYW1pbGllKS5zb3J0KChhLCBiKSA9PiBhLmxvY2FsZUNvbXBhcmUoYikpXSwgXG4gIHsgbGFiZWw6IFwiVmVsZyBmYW1pbGllXCIsXG4gIHVuaXF1ZTogdHJ1ZSxcbiAgc2VhcmNoYWJsZTogdHJ1ZX1cbilcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMiIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6ImZpbHRlcmVkRmFtaWx5ID0ge1xuICByZXR1cm4gc2VsZWN0ZWRGYW1pbHkgPT09IFwiQWxsXCIgXG4gICAgPyBKU09OLnBhcnNlKGRhdCkgICAgICAgICAgICAgICAgICAgXG4gICAgOiBKU09OLnBhcnNlKGRhdCkuZmlsdGVyKGQgPT4gZC5GYW1pbGllID09PSBzZWxlY3RlZEZhbWlseSk7IFxufVxuXG52aWV3b2Ygc2VsZWN0ZWRHZW51cyA9IElucHV0cy5zZWxlY3QoXG4gIGZpbHRlcmVkRmFtaWx5Lm1hcChkMiA9PiBTdHJpbmcoZDIuU2xla3QpKSxcbiAgeyBsYWJlbDogXCJWZWxnIHNsZWt0XCIsXG4gIHNlYXJjaGFibGU6IHRydWUsXG4gIHVuaXF1ZTogdHJ1ZX1cbilcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMyIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6ImZpbHRlcmVkR2VudXMgPSB7XG4gIGNvbnN0IGRhdGEgPSBKU09OLnBhcnNlKGRhdCk7XG4gIHJldHVybiBkYXRhLmZpbHRlcihkID0+IGQuU2xla3QgPT09IHNlbGVjdGVkR2VudXMpOyBcbn1cblxudmlld29mIHNlbGVjdGVkVGF4YSA9IElucHV0cy5zZWxlY3QoXG4gIGZpbHRlcmVkR2VudXMubWFwKGQgPT4gU3RyaW5nKGQuZXBpdGV0KSksXG4gIHsgbGFiZWw6IFwiVmVsZyB0YXhhXCIsXG4gIFxuICBzZWFyY2hhYmxlOiB0cnVlLFxuICBsaW1pdDogMTAwLFxuICB1bmlxdWU6IHRydWV9XG4pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTQiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJcbmZpbHRlcmVkVGF4YSA9IHtcbiAgY29uc3QgZGF0YSA9IEpTT04ucGFyc2UoZGF0KTtcbiAgcmV0dXJuIGRhdGEuZmlsdGVyKGQgPT4gZC5lcGl0ZXQgPT09IHNlbGVjdGVkVGF4YSAmJiBkLlNsZWt0ID09PSBzZWxlY3RlZEdlbnVzKTsgXG59XG5cblxudmlld29mIHNlbGVjdGVkSW1hZ2UgPSBJbnB1dHMuc2VsZWN0KFxuICBmaWx0ZXJlZFRheGEubWFwKGQgPT4gKHtcbiAgICBsYWJlbDogU3RyaW5nKGQuaW1hZ2UpLCAgXG4gICAgdmFsdWU6IGRcbiAgfSkpLFxuICB7IGxhYmVsOiBcIlZlbGcgYmlsZGVcIixcbiAgZm9ybWF0OiAoaXRlbSkgPT4gaXRlbS5sYWJlbCxcbiAgc2VhcmNoYWJsZTogdHJ1ZSxcbiAgbGltaXQ6IDEwMH1cbilcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtNSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6IlxuaHRtbGA8aW1nIFxuICAgIHN0eWxlPVwiXG4gICAgICBib3JkZXItcmFkaXVzOiAxMnB4O1xuICAgICAgbWF4LXdpZHRoOiAxMDAlO1xuICAgICAgaGVpZ2h0OiBhdXRvO1xuICAgICAgZGlzcGxheTogYmxvY2s7XG4gICAgICBtYXJnaW46IDAgYXV0bztcbiAgICBcIlxuICAgIHNyYz0nJHtzZWxlY3RlZEltYWdlLnZhbHVlLnBhdGhzfSdcbiAgICBhbHQ9XCJTZWxlY3RlZCBpbWFnZVwiXG4gID5gXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ3NlbGVjdGVkRmFtaWx5JykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ3NlbGVjdGVkR2VudXMnKSJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgnc2VsZWN0ZWRUYXhhJykifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InNoaW55SW5wdXQoJ3NlbGVjdGVkSW1hZ2UnKSJ9XX0=
 </script>
 <script type="module">
 if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
