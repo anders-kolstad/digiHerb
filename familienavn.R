@@ -22,10 +22,9 @@ dat <- list.files(path = pathToImg,
                        sep = " ") |>
   distinct(Slekt)
 
-dat2 <- dat
-dat <- dat[1:5,]
-dat <- dat2
+
 dat2 <- dat[1:5,]
+
 # Function to get family name from gbif backbone
 getFam <- function(x) {
   tryCatch({
@@ -42,24 +41,35 @@ getFam <- function(x) {
   }, error = function(e) NA_character_)
 }
 
-# A test. Acer sometimes get a famility, somethimes not. 
+# A test. Acer sometimes get a famility, sometimes not. 
 # I think it's a timeout issue. 
 # Maybe I can run the function a few times, and overlap the results to fill some gaps?
+
 #apply(dat2, MARGIN = 1, 
 #                     FUN = getFam)
+
 
 dat <- dat |>
   mutate(familie = map_chr(Slekt, getFam))
 
 
-# Then I might do some hard coding
+# rerun these two calls until no more families are found.
+dat_na <- dat |>
+  filter(is.na(familie)) |>
+  mutate(familie = map_chr(Slekt, getFam)) |>
+  filter(!is.na(familie))
 
+dat <- dat |>
+  rows_patch(dat_na, by = "Slekt")
+
+
+# Then I can do some hard coding for the remaining families, if any:
 #dat <- dat |>
 #  mutate(familie = case_when(
 #    Slekt == "Bartsia" ~ "Orobanchacea",
-#    Slekt == 
+#    Slekt == ...
 #    .default = familie
 #  ))
 
-saveRDS(slekt2, 'slektOGfam.RData', ascii = T)
+saveRDS(dat, 'slektOGfam.RData', ascii = T)
 #getwd()
