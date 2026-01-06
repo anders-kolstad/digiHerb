@@ -63,7 +63,7 @@ lib <- tibble(
       sep = ", ",
       remove = F) |>
   left_join(
-    fam, by = join_by(Slekt == slekt)
+    fam, by = join_by(Slekt == Slekt)
   ) |>
   rename(
     Familie = familie
@@ -215,7 +215,7 @@ html`<img
 #| title: "Antall nye taxa"
 ggplot(data=antTaxa)+
     geom_histogram(aes(x=År, y=Antall_nye_arter), stat="identity")+
-    scale_x_continuous(breaks=seq(2010,2024,1))+
+    scale_x_continuous(breaks=seq(2010,2025,1))+
     xlab("")+ylab("antall nye arter")+
     theme(axis.text.x = element_text(angle=45))+
     geom_line(aes(x=År, y=Antall_arter/2))+
@@ -228,6 +228,6 @@ ggplot(data=antTaxa)+
 #| title: "Antall nye bilder per år"
 ggplot(data=lib)+
     geom_histogram(aes(x=år), stat="count")+
-    scale_x_continuous(breaks=seq(2010,2024,1))+
+    scale_x_continuous(breaks=seq(2010,2025,1))+
     xlab("")+ylab("antall bilder")
 ```
